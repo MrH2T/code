@@ -12,6 +12,9 @@ inline int read(){
 const int MAXN = 105, MAXM = 2050, LJC = 998244353;
 int n,m,a[MAXN][MAXM];
 int f[MAXN][MAXM];
+inline int fix(const int x){
+    return (x%LJC+LJC)%LJC;
+}
 signed main(){
     n=read(),m=read();
     fu(i,1,n,1,1)fu(j,1,m,1,1)a[i][j]=read();
