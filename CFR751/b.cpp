@@ -5,17 +5,17 @@
 using namespace std;
 inline int read(){
     char c=0,f=1;int num=0;
-    while(c<'0'||c>'9')((c=getchar())=='-')&&(f=-f);
+    while(c<'0'||c>'9'&&c!='-')((c=getchar())=='-')&&(f=-f);
     while(c>='0'&&c<='9')num=(num<<1)+(num<<3)+(c^48),c=getchar();
     return num*f;
 }
-const int MAXN = 500050;
-int T,n;
-
+const int MAXN = 2050;
+int T,n,a[MAXN],sum[MAXN];
 signed main(){
     T=read();
     while(T--){
+        n=read();
+        fu(i,1,n,1,1)a[i]=read(),sum[a[i]]++;
         
     }
-    return 0;
 }
