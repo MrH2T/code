@@ -22,8 +22,8 @@ typedef pair<int,int> pr;
 priority_queue<pr,vector<pr>, greater<pr> > q;
 priority_queue<int,vector<int> ,greater<int> >qtmp;
 signed main(){
-    freopen("airport.in","r",stdin);
-    freopen("airport.out","w",stdout);
+    // freopen("airport.in","r",stdin);
+    // freopen("airport.out","w",stdout);
     n=read(),m1=read(),m2=read();
     fu(i,1,m1,1,1)a[i].st=read(),a[i].et=read();
     fu(i,1,m2,1,1)b[i].st=read(),b[i].et=read();
