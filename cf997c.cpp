@@ -1,3 +1,5 @@
+//vj465253f
+
 #include<bits/stdc++.h>
 #define rint register int
 #define fu(i,a,b,d,c) for(rint i=a;i<=b&&c;i+=d)
