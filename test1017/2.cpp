@@ -78,7 +78,6 @@ void dfs1(int p,int fa){
         ans[qq.first]=Seg::query(Seg::root[p],1,siz,pos,siz,1)-sum[p]*Seg::query(Seg::root[p],1,siz,pos,siz,0);
     }
 }
-signed qry[MAXN];
 signed main(){
 //    freopen("dat.in","r",stdin);
 //    freopen("me.out","w",stdout);
