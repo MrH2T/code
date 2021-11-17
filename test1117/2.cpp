@@ -29,7 +29,7 @@ void dp2(int p,int fat){
     for(int i=head[p],t;i;i=nxt[i])if((t=to[i])!=fat){
         up[t][0]=f[p]+f[t]-val2[i]-max(0,f[t]-val[i]-val2[i]);
         down[t][0]=f[p]+f[t]-val[i]-max(0,f[t]-val[i]-val2[i]);
-        g[t]=max(0,g[p]+up[t][0]-f[t]-val2[i]);
+        g[t]=max(0,g[p]+up[t][0]-f[t]-val[i]);
         dp2(t,p);
     }
 }
@@ -47,24 +47,25 @@ void dfs(int p,int fat){
 }
 int lca(int u,int v){
     if(dep[u]<dep[v])swap(u,v);
-    fd(i,20,1,1,1)if(dep[fa[u][i]]>=dep[v])u=fa[u][i];
+    fd(i,20,0,1,1)if(dep[fa[u][i]]>=dep[v])u=fa[u][i];
     if(u==v)return u;
-    fd(i,20,1,1,1)if(fa[u][i]!=fa[v][i])u=fa[u][i],v=fa[v][i];
+    fd(i,20,0,1,1)if(fa[u][i]!=fa[v][i])u=fa[u][i],v=fa[v][i];
     return fa[u][0];
 }
 int jump(int u,int lc,int tp){
-    int res=0;
-    fd(i,20,1,1,1){
+    int res=0,u0=u;if(u==lc)return f[u];
+    fd(i,20,0,1,1){
         if(dep[fa[u][i]]>=dep[lc]){
-            res=res+(!tp)?up[u][i]:down[u][i];
+            res=res+((!tp)?up[u][i]:down[u][i])-f[u];
             u=fa[u][i];
         }
     }
-    return res;
+    return res+f[u0];
 }
 int query(int u,int v){
     int lc=lca(u,v);
-    return jump(u,lc,0)+jump(v,lc,0)+g[lc]-f[lc];
+    // printf("query(%d,%d): lc=%d; %d %d\n",u,v,lc,jump(u,lc,0),jump(v,lc,1));
+    return jump(u,lc,0)+jump(v,lc,1)+g[lc]-f[lc];
 }
 signed main(){
     n=read(),q=read();
@@ -78,4 +79,8 @@ signed main(){
         int u=read(),v=read();
         printf("%d\n",query(u,v));
     }
+    // fu(i,1,n,1,1){
+    //     printf("%d: %d %d    %d %d %d / %d %d %d\n",i,f[i],g[i]
+    //         ,up[i][0],up[i][1],up[i][2],down[i][0],down[i][1],down[i][2]);
+    // }
 }
