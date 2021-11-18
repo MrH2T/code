@@ -1,3 +1,6 @@
+//Sub Small Spanning Tree
+
+// Use Kruskal to find smallest st, then use multiple to find the subsmall.
 #include<bits/stdc++.h>
 // #define int long long
 #define rint register int
