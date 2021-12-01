@@ -10,13 +10,18 @@ inline int read(){
     return num*f;
 }
 const int MAXM = 120, MAXN = 35,LJC = 998244353;
-inline int popcnt(int x){
-    int sum=0;
-    while(x)x-=x&-x,sum++;
-    return sum;
-}
 int v[MAXM],n,m,k;
-int f[31<<13][31];
+int f[MAXM][MAXN][MAXN][MAXN];
+int inv[MAXM],fac[MAXM],invfac[MAXM];
+inline int C(int n,int m){
+    if(n<m||m<0)return 0;
+    return 1ll*fac[n]*invfac[n-m]%LJC*invfac[m]%LJC;
+}
+inline int qp(int x,int p){
+    int res=1;
+    for(;p;p>>=1,x=1ll*x*x%LJC)(p&1)&&(res=1ll*res*x%LJC);
+    return res;
+}
 signed main(){
     freopen("sequence.in","r",stdin);
     freopen("sequence.out","w",stdout);
@@ -24,27 +29,25 @@ signed main(){
     n=read(),m=read(),k=read();
     fu(i,0,m,1,1)v[i]=read();
 
-    //i now have a 50 pts program based on dp that enumerating the number-value
-    //      , which is  O(n^2logn * 2^m)
-    //if i want to ac it, i have to expand it to binary-bits
-    //i now have an idea that maybe there's an algorithm of O(n^2 * m)
-    //10:21 : let's try this
-    //10:46 : it's fake. i've deleted it
-    //10:50 : i'll give it up if i have no further idea until 11:10
-    //11:07 : i'm giving up. i will use my 50-pts program and go for t4's subtask
-    //12:50 : i can't rush it out
-    for(int i=1,b=0;i<=(n<<m)&&b<=m;i<<=1,b++){
-        f[i][1]=v[b];
-    }
-    fu(j,2,n,1,1)
-        fu(i,1,(n<<m),1,1){
-            for(int l=1,b=0;l<=i&&b<=m;l<<=1,b++){
-                f[i][j]=(1ll*f[i][j]+1ll*v[b]*f[i-l][j-1])%LJC;
+    inv[1]=fac[0]=invfac[0]=1;
+    fu(i,2,n,1,1)inv[i]=1ll*(LJC-LJC/i)*inv[LJC%i]%LJC;
+    fu(i,1,n,1,1)fac[i]=1ll*fac[i-1]*i%LJC,invfac[i]=1ll*invfac[i-1]*inv[i]%LJC;
+
+    fu(i,1,m+7,1,1){
+        if(i-1<=m)f[i][1][1][1]=v[i-1];
+        fu(j,2,n,1,1){
+            fu(k,1,i,1,1){
+                fu(l,1,n,1,1){
+                    fu(t,0,n-j,1,1){
+                        (f[i][j+t][k+(l+t)%2][(l+t)/2]+=f[i-1][j][k][l]*qp(v[i-1],t)%LJC*C(n-j,t)%LJC)%=LJC;
+                    }
+                }
             }
         }
+    }
     int ans=0;
-    fu(i,n,(n<<m),1,1){
-        if(popcnt(i)<=k)ans=(ans+f[i][n])%LJC;
+    fu(i,1,k,1,1){
+        ans=(1ll*ans+f[m+7][n][i][0])%LJC;
     }
     printf("%d\n",ans);
     return 0;

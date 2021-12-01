@@ -32,43 +32,42 @@ void add(int u,int v,int w,int dr){
 int col[MAXNM],lv[MAXNM];
 namespace Subtask1{
     //1-6
-    int tms,rs=0;
-    int vis[MAXNM];
-    void dfs(int u,int c,int l,int tp,int d){
-        vis[u]=tms;
-        for(int i=head[u];i;i=nxt[i]){
-            int v=to[i];
-            if(vis[v]==tms||val[i]!=tp||(tp==2&&di[i]!=d))continue;
-            if(col[v]==c)continue;
-            else if(col[v]&&lv[v]<=l){vis[v]=tms;continue;}
-            else if(!col[v])dfs(v,c,l,tp,d);
-        }
-    }
-    int check(int x,int y,int c,int l){
+    struct tri{int u,v,w;};
+    queue<tri> qq;
+    bool vis[MAXNM];
+    int bfs(int x,int y,int c,int l){
+        while(!qq.empty())qq.pop();
         memset(vis,0,sizeof(vis));
         int u=ID(x,y);
-        vis[u]=++tms;
+        vis[u]=1;
         int res=0;
         for(int i=head[u];i;i=nxt[i]){
             int v=to[i];
             if(col[v]==c)continue;
-            else if(col[v]&&lv[v]<=l)vis[v]=++tms;
+            else if(col[v]&&lv[v]<=l)res++;
             else if(!col[v]){
-                if(val[i]==1)vis[v]=++tms;
-                else {
-                    tms++;
-                    dfs(v,c,l,val[i],di[i]);
+                qq.push((tri){v,val[i],di[i]});
+            }
+        }
+        while(!qq.empty()){
+            tri fr=qq.front();qq.pop();
+            vis[fr.u]=1,res++;
+            int tp=fr.v,u=fr.u,d=fr.w;
+            for(int i=head[u];i;i=nxt[i]){
+                int v=to[i];
+                if(col[v]==c)continue;
+                if(col[v]&&lv[v]<=l&&val[i]==tp&&!vis[v]&&(tp!=2||tp==2&&di[i]==d))vis[v]=1,res++;
+                else if(!col[v]&&val[i]==tp&&!vis[v]&&(tp!=2||tp==2&&di[i]==d)){
+                    qq.push((tri){v,tp,d});
                 }
             }
         }
-        fu(i,1,n*m,1,1)if(vis[i])res++;
-        res--;
         return res;
     }
     void solve(){
         while(q--){
             int c=read()+1,l=read(),x=read(),y=read();
-            printf("%d\n",check(x,y,c,l));
+            printf("%d\n",bfs(x,y,c,l));
             col[ID(x,y)]=c,lv[ID(x,y)]=l;
         }
     }
@@ -77,9 +76,13 @@ namespace Subtask2{
     //7-8
     void solve(){
         while(q--){
+            // printf("%d\b\b\b\b\b",q);
             int c=read()+1,l=read(),x=read(),y=read();
             int u=ID(x,y),ans=0;
+            // printf("u:%d\n",u);
             for(int i=head[u];i;i=nxt[i]){
+                // printf("%d\n",i);
+                // if(nxt[i]==i)exit(-1);
                 int v=to[i];
                 if(col[v]==c)continue;
                 else if(!col[v]||lv[v]<=l)ans++;
@@ -130,8 +133,8 @@ int work(){
     return 0;
 }
 signed main(){
-	freopen("chess.in","r",stdin);
-	freopen("chess.out","w",stdout);
+	// freopen("chess7.in","r",stdin);
+	// freopen("chess.out","w",stdout);
 	
     T=read();
     while(T--)work();
