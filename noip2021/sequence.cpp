@@ -35,15 +35,13 @@ signed main(){
 
     fu(i,1,m+7,1,1){
         if(i-1<=m)f[i][1][1][1]=v[i-1];
-        fu(j,2,n,1,1){
-            fu(k,1,i,1,1){
-                fu(l,1,n,1,1){
-                    fu(t,0,n-j,1,1){
-                        (f[i][j+t][k+(l+t)%2][(l+t)/2]+=f[i-1][j][k][l]*qp(v[i-1],t)%LJC*C(n-j,t)%LJC)%=LJC;
-                    }
-                }
-            }
-        }
+        fu(j,2,n,1,1)
+        fu(kk,1,i,1,1)
+        fu(l,1,n,1,1)
+        fu(t,0,n-j,1,1)
+            (f[i][j+t][kk+(l+t)%2][(l+t)/2]
+                +=
+            f[i-1][j][kk][l]*qp(v[i-1],t)%LJC*C(n-j,t)%LJC)%=LJC;
     }
     int ans=0;
     fu(i,1,k,1,1){
