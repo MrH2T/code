@@ -16,14 +16,27 @@ int a[MAXN],b[MAXN],c[MAXN];
 int id(int x){
     return x>0?x:-x+n-1;
 }
-vector<ull> f[MAXN][41];
-void dfs(int p,int dep){
-    fu(i,0,dep,1,1)f[p][i].resize(dep+1);
-    
+ull f[42][42][42][2];
+inline bool leaf(int u){return !(ls[u]&&rs[u]);}
+void dfs(int p,int dep,int idx){
+    if(!p)return;
+    if(leaf(p)){
+        fu(x,0,40,1,1)fu(y,0,40,1,1)f[dep][x][y][idx]=1ull*c[p]*(a[p]+x)*(b[p]+y);
+        return;
+    }
+    dfs(ls[p],dep+1,0);
+    dfs(rs[p],dep+1,1);
+    fu(x,0,40,1,1)fu(y,0,40,1,1){
+        f[dep][x][y][idx]=min(
+            f[dep+1][x+1][y][0]+f[dep+1][x][y][1],
+            f[dep+1][x][y][0]+f[dep+1][x][y+1][1]
+        );
+    }
 }
 signed main(){
     n=read();
     fu(i,1,n-1,1,1)ls[i]=id(read()),rs[i]=id(read());
     fu(i,1,n,1,1)a[id(-i)]=read(),b[id(-i)]=read(),c[id(-i)]=read();
-    dfs(1,0);
+    dfs(1,1,0);
+    printf("%lld",f[1][0][0][0]);
 }
