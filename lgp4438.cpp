@@ -17,7 +17,7 @@ int id(int x){
     return x>0?x:-x+n-1;
 }
 ull f[42][42][42][2];
-inline bool leaf(int u){return !(ls[u]&&rs[u]);}
+inline bool leaf(int u){return !(ls[u]||rs[u]);}
 void dfs(int p,int dep,int idx){
     if(!p)return;
     if(leaf(p)){
