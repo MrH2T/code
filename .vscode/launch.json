@@ -11,11 +11,11 @@
             "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "C:\\Program Files (x86)\\Dev-Cpp\\MinGW64\\bin",
+            "cwd": "D:/TDM-GCC-64/bin",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:\\Program Files (x86)\\Dev-Cpp\\MinGW64\\bin\\gdb.exe",
+            "miDebuggerPath": "D:/TDM-GCC-64/bin/gdb.exe",
             "setupCommands": [
                 {
                     "description": "为 gdb 启用整齐打印",
