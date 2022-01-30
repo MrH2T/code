@@ -2,4 +2,4 @@
 *.in
 *.out
 *.ans
-*.json
+/.vscode/*.json
